@@ -9,20 +9,21 @@ class QuizApp:
         self.root.title("Quiz App")
         self.root.geometry("400x400")
         self.root.resizable(0,0)
+        self.root.config(bg="#F11A7B")
 
-        self.question_label = tk.Label(root, text="", wraplength=300, justify="center", font=("Helvetica", 15), fg="#27005D")
+        self.question_label = tk.Label(root, text="", wraplength=300, justify="center", font=("Helvetica", 15), fg="white", bg="#F11A7B")
         self.question_label.pack(pady=20)
 
-        self.choices_frame = tk.Frame(root)
+        self.choices_frame = tk.Frame(root, bg="#F11A7B")
         self.choices_frame.pack(pady=10)
 
-        self.score_label = tk.Label(root, text="Score: 0", font=("Helvetica", 10), fg="#27005D")
+        self.score_label = tk.Label(root, text="Score: 0", font=("Helvetica", 10), fg="white", bg="#F11A7B")
         self.score_label.pack(pady=10)
 
-        self.correct_answer_label = tk.Label(root, text="Correct Answer: ", fg="green", font=("Helvetica", 10))
+        self.correct_answer_label = tk.Label(root, text="Correct Answer: ", fg="green", font=("Helvetica", 10), bg="#F11A7B")
         self.correct_answer_label.pack(pady=10)
 
-        self.next_question_button = tk.Button(root, text="Next Question", command=self.get_next_question, )
+        self.next_question_button = tk.Button(root, text="Next Question", command=self.get_next_question, bg="#AED2FF", font=("Helvetica",15), fg="#F11A7B")
         self.next_question_button.pack(pady=10)
 
         self.questions = []
@@ -66,7 +67,7 @@ class QuizApp:
 
             for choice in choices:
                 tk.Radiobutton(self.choices_frame, text=html.unescape(choice),
-                               variable=self.var, value=choice, command=self.check_answer).pack(anchor="w")
+                               variable=self.var, value=choice, command=self.check_answer, bg="#F11A7B", activebackground="#F11A7B", selectcolor="#F11A7B", fg="white").pack(anchor="w")
 
             self.var.set("")
             self.correct_choice = correct_choice
