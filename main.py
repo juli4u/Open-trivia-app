@@ -6,24 +6,57 @@ import html
 class QuizApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Quiz App")
-        self.root.geometry("400x400")
-        self.root.resizable(0,0)
-        self.root.config(bg="#F11A7B")
+        self.root.title("Open Trivia App")
+        self.root.geometry("600x600")
+        self.root.resizable(0, 0)
+        self.root.config(bg="#27005D")
 
-        self.question_label = tk.Label(root, text="", wraplength=300, justify="center", font=("Helvetica", 15), fg="white", bg="#F11A7B")
+        # Main Frame
+        self.main_frame = tk.Frame(root, bg="#27005D")
+        self.main_frame.pack(expand=True)
+
+        title_label = tk.Label(self.main_frame, text="Open Trivia App", font=("Times", 30), fg="#E4F1FF", bg="#27005D")
+        title_label.pack(pady=50)
+
+        start_button = tk.Button(self.main_frame, text="Start", command=self.show_instruction_manual, bg="#AED2FF", font=("Times", 30), fg="#9400FF")
+        start_button.pack()
+
+        # Instruction Manual Frame
+        self.instruction_frame = tk.Frame(root, bg="#F11A7B", width=600, height=600)
+
+        instruction_label = tk.Label(self.instruction_frame, text="Instruction Manual", font=("Times", 20), fg="white", bg="#F11A7B")
+        instruction_label.pack(pady=20)
+
+        instructions_text = (
+            "1. There are 10 questions in the quiz.\n"
+            "2. The question difficulty is medium.\n"
+            "3. It is a multiple-choice quiz.\n"
+            "4. When you choose the answer, it also shows the correct answer and records the scores.\n"
+            "5. When the quiz ends, you will get a message box saying, 'Quiz Completed' and your scores."
+        )
+
+        instructions_label = tk.Label(self.instruction_frame, text=instructions_text, font=("Times", 12), fg="white", bg="#F11A7B", justify="left")
+        instructions_label.pack(pady=20)
+
+        start_quiz_button = tk.Button(self.instruction_frame, text="Start the Quiz", command=self.show_quiz_section, bg="#AED2FF", font=("Times", 15), fg="#F11A7B")
+        start_quiz_button.pack(pady=10)
+
+        # Second Frame (Quiz Section)
+        self.quiz_frame = tk.Frame(root, bg="#F11A7B", width=600, height=600)
+
+        self.question_label = tk.Label(self.quiz_frame, text="", wraplength=300, justify="center", font=("Times", 15), fg="white", bg="#F11A7B")
         self.question_label.pack(pady=20)
 
-        self.choices_frame = tk.Frame(root, bg="#F11A7B")
+        self.choices_frame = tk.Frame(self.quiz_frame, bg="#F11A7B")
         self.choices_frame.pack(pady=10)
 
-        self.score_label = tk.Label(root, text="Score: 0", font=("Helvetica", 10), fg="white", bg="#F11A7B")
+        self.score_label = tk.Label(self.quiz_frame, text="Score: 0", font=("Times", 10), fg="white", bg="#F11A7B")
         self.score_label.pack(pady=10)
 
-        self.correct_answer_label = tk.Label(root, text="Correct Answer: ", fg="green", font=("Helvetica", 10), bg="#F11A7B")
+        self.correct_answer_label = tk.Label(self.quiz_frame, text="Correct Answer: ", fg="green", font=("Times", 10), bg="#F11A7B")
         self.correct_answer_label.pack(pady=10)
 
-        self.next_question_button = tk.Button(root, text="Next Question", command=self.get_next_question, bg="#AED2FF", font=("Helvetica",15), fg="#F11A7B")
+        self.next_question_button = tk.Button(self.quiz_frame, text="Next Question", command=self.get_next_question, bg="#AED2FF", font=("Times", 15), fg="#F11A7B")
         self.next_question_button.pack(pady=10)
 
         self.questions = []
@@ -43,11 +76,19 @@ class QuizApp:
 
             if data["response_code"] == 0:
                 self.questions = data["results"]
-                self.show_question()
             else:
                 messagebox.showerror("Error", "Failed to fetch questions from the API.")
         except requests.RequestException as e:
             messagebox.showerror("Error", f"Request failed: {e}")
+
+    def show_instruction_manual(self):
+        self.main_frame.pack_forget()
+        self.instruction_frame.pack()
+
+    def show_quiz_section(self):
+        self.instruction_frame.pack_forget()
+        self.quiz_frame.pack()
+        self.show_question()
 
     def show_question(self):
         if self.current_question_index < len(self.questions):
@@ -67,7 +108,7 @@ class QuizApp:
 
             for choice in choices:
                 tk.Radiobutton(self.choices_frame, text=html.unescape(choice),
-                               variable=self.var, value=choice, command=self.check_answer, bg="#F11A7B", activebackground="#F11A7B", selectcolor="#F11A7B", fg="white").pack(anchor="w")
+                               variable=self.var, value=choice, command=self.check_answer, bg="#F11A7B", activebackground="#F11A7B", selectcolor="#F11A7B", fg="white", font=("Times", 13)).pack(anchor="w")
 
             self.var.set("")
             self.correct_choice = correct_choice
