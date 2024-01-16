@@ -2,29 +2,30 @@ import tkinter as tk
 from tkinter import messagebox
 import requests
 import html
-
 class QuizApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Open Trivia App")
-        self.root.geometry("600x600")
+        self.root.geometry("800x700")
         self.root.resizable(0, 0)
         self.root.config(bg="#27005D")
-
+        
+        background_picture = tk.PhotoImage(file="Background Picture.png")
         # Main Frame
         self.main_frame = tk.Frame(root, bg="#27005D")
         self.main_frame.pack(expand=True)
 
-        title_label = tk.Label(self.main_frame, text="Open Trivia App", font=("Times", 30), fg="#E4F1FF", bg="#27005D")
+        title_label = tk.Label(self.main_frame, text="Open Trivia App", font=("Times", 40, "bold"), fg="white", bg="#27005D", image=background_picture, compound="center")
+        title_label.image = background_picture
         title_label.pack(pady=50)
 
         start_button = tk.Button(self.main_frame, text="Start", command=self.show_instruction_manual, bg="#AED2FF", font=("Times", 30), fg="#9400FF")
-        start_button.pack()
+        start_button.place(x=180, y=370)
 
         # Instruction Manual Frame
         self.instruction_frame = tk.Frame(root, bg="#F11A7B", width=600, height=600)
 
-        instruction_label = tk.Label(self.instruction_frame, text="Instruction Manual", font=("Times", 20), fg="white", bg="#F11A7B")
+        instruction_label = tk.Label(self.instruction_frame, text="Instruction Manual", font=("Times", 20), fg="black", bg="#F11A7B")
         instruction_label.pack(pady=20)
 
         instructions_text = (
@@ -35,7 +36,7 @@ class QuizApp:
             "5. When the quiz ends, you will get a message box saying, 'Quiz Completed' and your scores."
         )
 
-        instructions_label = tk.Label(self.instruction_frame, text=instructions_text, font=("Times", 12), fg="white", bg="#F11A7B", justify="left")
+        instructions_label = tk.Label(self.instruction_frame, text=instructions_text, font=("Times", 15), fg="black", bg="#F11A7B", justify="left")
         instructions_label.pack(pady=20)
 
         start_quiz_button = tk.Button(self.instruction_frame, text="Start the Quiz", command=self.show_quiz_section, bg="#AED2FF", font=("Times", 15), fg="#F11A7B")
@@ -44,16 +45,16 @@ class QuizApp:
         # Second Frame (Quiz Section)
         self.quiz_frame = tk.Frame(root, bg="#F11A7B", width=600, height=600)
 
-        self.question_label = tk.Label(self.quiz_frame, text="", wraplength=300, justify="center", font=("Times", 15), fg="white", bg="#F11A7B")
+        self.question_label = tk.Label(self.quiz_frame, text="", wraplength=300, justify="center", font=("Times", 15), fg="black", bg="#F11A7B")
         self.question_label.pack(pady=20)
 
         self.choices_frame = tk.Frame(self.quiz_frame, bg="#F11A7B")
         self.choices_frame.pack(pady=10)
 
-        self.score_label = tk.Label(self.quiz_frame, text="Score: 0", font=("Times", 10), fg="white", bg="#F11A7B")
+        self.score_label = tk.Label(self.quiz_frame, text="Score: 0", font=("Times", 12), fg="black", bg="#F11A7B")
         self.score_label.pack(pady=10)
 
-        self.correct_answer_label = tk.Label(self.quiz_frame, text="Correct Answer: ", fg="green", font=("Times", 10), bg="#F11A7B")
+        self.correct_answer_label = tk.Label(self.quiz_frame, text="Correct Answer: ", fg="green", font=("Times", 12), bg="#F11A7B")
         self.correct_answer_label.pack(pady=10)
 
         self.next_question_button = tk.Button(self.quiz_frame, text="Next Question", command=self.get_next_question, bg="#AED2FF", font=("Times", 15), fg="#F11A7B")
