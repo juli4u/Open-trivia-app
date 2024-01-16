@@ -2,20 +2,24 @@ import tkinter as tk
 from tkinter import messagebox
 import requests
 import html
+from PIL import ImageTk, Image
+
 class QuizApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("Open Trivia App")
+        self.root.title("QuizzifyHub")
         self.root.geometry("800x700")
         self.root.resizable(0, 0)
         self.root.config(bg="#27005D")
+        self.root.iconbitmap('QuizzifyHub-logos_transparent.ico')
         
         background_picture = tk.PhotoImage(file="Background Picture.png")
         # Main Frame
         self.main_frame = tk.Frame(root, bg="#27005D")
         self.main_frame.pack(expand=True)
 
-        title_label = tk.Label(self.main_frame, text="Open Trivia App", font=("Times", 40, "bold"), fg="white", bg="#27005D", image=background_picture, compound="center")
+        
+        title_label = tk.Label(self.main_frame, text="QuizzifyHub", font=("Times", 40, "bold"), fg="white", bg="#27005D", image=background_picture, compound="center")
         title_label.image = background_picture
         title_label.pack(pady=50)
 
